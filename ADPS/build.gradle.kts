@@ -19,12 +19,19 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.projectlombok:lombok:1.18.34")
+	implementation("org.springframework.content:spring-content-fs-boot-starter:1.2.0")
+	implementation("org.springframework:spring-async")
+
+	implementation("org.apache.tika:tika-core:2.4.1")
+	implementation("org.apache.poi:poi:5.2.2")
+	implementation("org.apache.pdfbox:pdfbox:2.0.26")
+
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	implementation("org.projectlombok:lombok:1.18.34")
 }
 
 tasks.withType<Test> {
