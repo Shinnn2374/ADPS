@@ -17,6 +17,7 @@ public class Document {
 
     private String titleName;
     private String fileType;
+    private Long fullSize;
 
     @Enumerated(EnumType.STRING)
     private ProcessingStatus status;
