@@ -24,6 +24,8 @@ dependencies {
 	implementation("org.projectlombok:lombok:1.18.34")
 	implementation("org.springframework.content:spring-content-fs-boot-starter:1.2.0")
 	implementation("org.springframework:spring-async")
+	implementation("com.github.paulcwarren:spring-content-fs-boot-starter:1.2.6")
+	implementation("com.github.paulcwarren:spring-content-jpa-boot-starter:1.2.6")
 
 	implementation("org.apache.tika:tika-core:2.4.1")
 	implementation("org.apache.poi:poi:5.2.2")
