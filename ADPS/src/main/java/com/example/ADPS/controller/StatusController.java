@@ -19,8 +19,11 @@ public class StatusController {
     public ResponseEntity<ProcessingStatusDto> getProcessingStatus(
             @PathVariable Long id,
             @RequestParam(required = false, defaultValue = "false") boolean detailed) {
-
-        return ResponseEntity.ok(processingService.getProcessingStatus(id, detailed));
+        try {
+            return ResponseEntity.ok(processingService.getProcessingStatus(id, detailed));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/queue")
@@ -30,7 +33,11 @@ public class StatusController {
 
     @PostMapping("/document/{id}/cancel")
     public ResponseEntity<Void> cancelProcessing(@PathVariable Long id) {
-        processingService.cancelProcessing(id);
-        return ResponseEntity.noContent().build();
+        try {
+            processingService.cancelProcessing(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

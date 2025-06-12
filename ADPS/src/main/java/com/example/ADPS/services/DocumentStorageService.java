@@ -1,6 +1,9 @@
 package com.example.ADPS.services;
 
+import com.example.ADPS.dto.DocumentMetadataDto;
+import com.example.ADPS.dto.TextExtractionResultDto;
 import com.example.ADPS.exceptions.DocumentNotFoundException;
+import com.example.ADPS.exceptions.DocumentProcessingException;
 import com.example.ADPS.model.Document;
 import com.example.ADPS.model.DocumentContent;
 import com.example.ADPS.repository.DocumentContentRepository;
@@ -11,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -51,5 +57,37 @@ public class DocumentStorageService {
 
     public String generateStoragePath() {
         return storagePath + "/" + UUID.randomUUID();
+    }
+
+    public DocumentMetadataDto getDocumentMetadata(Long id) {
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new DocumentNotFoundException(id));
+
+        return new DocumentMetadataDto(
+                document.getId(),
+                document.getTitleName(),
+                document.getFileType(),
+                document.getFullSize(),
+                document.getMetadata(),
+                document.getStatus().name(),
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
+
+    public TextExtractionResultDto getExtractedText(Long id) {
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new DocumentNotFoundException(id));
+
+        if (document.getExtractedText() == null) {
+            throw new DocumentProcessingException("Text not extracted yet");
+        }
+
+        return new TextExtractionResultDto(
+                document.getId(),
+                document.getTitleName(),
+                document.getExtractedText(),
+                document.getExtractedText().length()
+        );
     }
 }
