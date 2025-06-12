@@ -5,7 +5,6 @@ import com.example.ADPS.model.Document;
 import com.example.ADPS.model.DocumentContent;
 import com.example.ADPS.repository.DocumentContentRepository;
 import com.example.ADPS.repository.DocumentRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +14,19 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class DocumentStorageService {
 
     private final DocumentRepository documentRepository;
     private final DocumentContentRepository contentRepository;
     private final String storagePath;
 
+    public DocumentStorageService(DocumentRepository documentRepository,
+                                  DocumentContentRepository contentRepository,
+                                  @Value("${document.storage.path}") String storagePath) {
+        this.documentRepository = documentRepository;
+        this.contentRepository = contentRepository;
+        this.storagePath = storagePath;
+    }
 
     @Transactional
     public Document storeDocument(MultipartFile file) throws IOException {

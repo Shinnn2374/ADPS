@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Data
@@ -17,9 +19,17 @@ public class DocumentContent {
     private Long id;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Column(columnDefinition = "BYTEA")
+    @JdbcTypeCode(SqlTypes.BINARY)
+    @Column(name = "content", nullable = false, columnDefinition = "BYTEA")
     private byte[] content;
 
-    private String mimeType;
+    @Column(name = "content_size", nullable = false)
+    private Long size;
+
+    @Column(name = "content_checksum", length = 64)
+    private String checksum;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    private Document document;
 }
