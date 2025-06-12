@@ -34,7 +34,7 @@ public class DocumentProcessingService {
                 .orElseThrow(() -> new DocumentNotFoundException(documentId));
 
         try {
-            updateDocumentStatus(document, ProcessingStatus.IN_PROGRESS, "Начата обработка");
+            updateDocumentStatus(document, ProcessingStatus.IN_PROCESSING, "Начата обработка");
 
             // Извлечение текста
             String extractedText = textExtractionService.extractText(document);
@@ -43,7 +43,7 @@ public class DocumentProcessingService {
             // Извлечение метаданных
             document.setMetadata(metadataExtractionService.extractMetadata(document));
 
-            updateDocumentStatus(document, ProcessingStatus.COMPLETED, "Обработка завершена");
+            updateDocumentStatus(document, ProcessingStatus.PROCESSED, "Обработка завершена");
         } catch (Exception e) {
             log.error("Ошибка обработки документа ID: " + documentId, e);
             updateDocumentStatus(document, ProcessingStatus.FAILED, "Ошибка: " + e.getMessage());
@@ -54,7 +54,6 @@ public class DocumentProcessingService {
 
     private void updateDocumentStatus(Document document, ProcessingStatus status, String message) {
         document.setStatus(status);
-        document.setStatusMessage(message);
         documentRepository.save(document);
         log.info("Документ ID: {} - {}: {}", document.getId(), status, message);
     }

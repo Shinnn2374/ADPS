@@ -26,6 +26,12 @@ dependencies {
 	implementation("org.springframework:spring-async")
 	implementation("com.github.paulcwarren:spring-content-fs-boot-starter:1.2.6")
 	implementation("com.github.paulcwarren:spring-content-jpa-boot-starter:1.2.6")
+	implementation ("org.apache.poi:poi-ooxml:5.2.3")
+	implementation ("org.apache.pdfbox:pdfbox:2.0.28")
+	implementation ("org.apache.poi:poi:5.2.3")
+
+
+
 
 	implementation("org.apache.tika:tika-core:2.4.1")
 	implementation("org.apache.poi:poi:5.2.2")
